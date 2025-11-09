@@ -27,7 +27,17 @@
       <!-- Exercises List -->
       <div class="jacaona-exercises-container">
         @for (exercise of currentWorkout()?.exercises || []; track exercise.id) {
-          <div class="jacaona-exercise-card">
+          <div 
+            class="jacaona-exercise-card"
+            [class.jacaona-drag-over]="dragOverExerciseId() === exercise.id"
+            draggable="true"
+            (dragstart)="onDragStart(exercise.id, $event)"
+            (dragover)="onDragOver(exercise.id, $event)"
+            (dragenter)="onDragEnter(exercise.id, $event)"
+            (dragleave)="onDragLeave(exercise.id, $event)"
+            (drop)="onDrop(exercise.id, $event)"
+            (dragend)="onDragEnd($event)"
+          >
             <!-- Exercise Header -->
             <div class="jacaona-exercise-header">
               <h3 class="jacaona-exercise-title">{{ exercise.name }}</h3>
@@ -132,16 +142,6 @@
   @if (showMenu()) {
     <div class="jacaona-menu-overlay" (click)="closeMenu()">
       <div class="jacaona-menu-content" (click)="$event.stopPropagation()">
-        <button class="jacaona-menu-item" (click)="reorderExercises()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="jacaona-menu-icon">
-            <line x1="7" y1="4" x2="7" y2="17" stroke="currentColor" stroke-width="2"/>
-            <path d="M3 14l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2"/>
-            <line x1="17" y1="20" x2="17" y2="7" stroke="currentColor" stroke-width="2"/>
-            <path d="M21 10l-4-4-4 4" fill="none" stroke="currentColor" stroke-width="2"/>
-          </svg>
-          <span class="jacaona-menu-text">Reorder Exercises</span>
-        </button>
-        <div class="jacaona-menu-separator"></div>
         <button class="jacaona-menu-item" (click)="replaceExercise()">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="jacaona-menu-icon">
             <path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"/>

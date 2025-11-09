@@ -20,6 +20,8 @@ export class AddWorkoutComponent implements OnInit {
   showDiscardDialog = signal(false);
   showMenu = signal(false);
   selectedExerciseId = signal<string | null>(null);
+  draggedExerciseId = signal<string | null>(null);
+  dragOverExerciseId = signal<string | null>(null);
 
   ngOnInit(): void {
     // Create a new workout if none exists
@@ -108,12 +110,6 @@ export class AddWorkoutComponent implements OnInit {
     this.selectedExerciseId.set(null);
   }
 
-  reorderExercises(): void {
-    this.closeMenu();
-    // TODO: Implement reorder functionality
-    console.log('Reorder exercises');
-  }
-
   replaceExercise(): void {
     const exerciseId = this.selectedExerciseId();
     this.closeMenu();
@@ -135,5 +131,79 @@ export class AddWorkoutComponent implements OnInit {
       this.workoutService.removeExerciseFromWorkout(workout.id, exerciseId);
     }
     this.closeMenu();
+  }
+
+  // Drag and Drop handlers
+  onDragStart(exerciseId: string, event: DragEvent): void {
+    this.draggedExerciseId.set(exerciseId);
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/html', exerciseId);
+    }
+    // Add a small delay to allow the browser to create the drag image
+    setTimeout(() => {
+      const draggedCard = event.target as HTMLElement;
+      draggedCard.style.opacity = '0.5';
+    }, 0);
+  }
+
+  onDragOver(exerciseId: string, event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const draggedId = this.draggedExerciseId();
+    if (draggedId && draggedId !== exerciseId) {
+      if (event.dataTransfer) {
+        event.dataTransfer.dropEffect = 'move';
+      }
+      this.dragOverExerciseId.set(exerciseId);
+    }
+  }
+
+  onDragEnter(exerciseId: string, event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const draggedId = this.draggedExerciseId();
+    if (draggedId && draggedId !== exerciseId) {
+      this.dragOverExerciseId.set(exerciseId);
+    }
+  }
+
+  onDragLeave(exerciseId: string, event: DragEvent): void {
+    event.stopPropagation();
+    
+    // Only clear if we're leaving the current drag-over target
+    const target = event.target as HTMLElement;
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    
+    // Check if we're actually leaving the card (not just moving to a child element)
+    if (!target.contains(relatedTarget)) {
+      if (this.dragOverExerciseId() === exerciseId) {
+        this.dragOverExerciseId.set(null);
+      }
+    }
+  }
+
+  onDrop(targetExerciseId: string, event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const draggedId = this.draggedExerciseId();
+    const workout = this.currentWorkout();
+    
+    if (draggedId && targetExerciseId && draggedId !== targetExerciseId && workout) {
+      this.workoutService.reorderExercises(workout.id, draggedId, targetExerciseId);
+    }
+    
+    this.draggedExerciseId.set(null);
+    this.dragOverExerciseId.set(null);
+  }
+
+  onDragEnd(event: DragEvent): void {
+    const draggedCard = event.target as HTMLElement;
+    draggedCard.style.opacity = '';
+    this.draggedExerciseId.set(null);
+    this.dragOverExerciseId.set(null);
   }
 }

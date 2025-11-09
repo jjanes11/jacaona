@@ -159,6 +159,17 @@
   padding: var(--jacaona-space-lg);
   width: 100%;
   box-sizing: border-box;
+  cursor: grab;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.jacaona-exercise-card:active {
+  cursor: grabbing;
+}
+
+.jacaona-exercise-card.jacaona-drag-over {
+  transform: translateY(-4px);
+  box-shadow: 0 0 0 2px var(--jacaona-accent-blue);
 }
 
 /* Exercise Header */

@@ -196,6 +196,36 @@ export class WorkoutService {
     this.saveData();
   }
 
+  reorderExercises(workoutId: string, draggedExerciseId: string, targetExerciseId: string): void {
+    const workouts = this._workouts().map(w => {
+      if (w.id === workoutId) {
+        const exercises = [...w.exercises];
+        const draggedIndex = exercises.findIndex(e => e.id === draggedExerciseId);
+        const targetIndex = exercises.findIndex(e => e.id === targetExerciseId);
+        
+        if (draggedIndex !== -1 && targetIndex !== -1) {
+          // Remove the dragged exercise
+          const [draggedExercise] = exercises.splice(draggedIndex, 1);
+          // Insert it at the target position
+          exercises.splice(targetIndex, 0, draggedExercise);
+        }
+        
+        return { ...w, exercises };
+      }
+      return w;
+    });
+    
+    this._workouts.set(workouts);
+    
+    // Update current workout if it's the one being modified
+    if (this._currentWorkout()?.id === workoutId) {
+      const updatedWorkout = workouts.find(w => w.id === workoutId);
+      this._currentWorkout.set(updatedWorkout || null);
+    }
+    
+    this.saveData();
+  }
+
   // Set Management
   addSetToExercise(workoutId: string, exerciseId: string): Set {
     const newSet: Set = {
