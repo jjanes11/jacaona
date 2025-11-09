@@ -161,12 +161,38 @@
   box-sizing: border-box;
 }
 
+/* Exercise Header */
+.jacaona-exercise-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--jacaona-space-lg);
+}
+
 .jacaona-exercise-title {
   color: white;
   font-size: 20px;
   font-weight: var(--jacaona-font-weight-semibold);
-  margin: 0 0 var(--jacaona-space-lg) 0;
+  margin: 0;
   text-align: left;
+}
+
+.jacaona-exercise-menu-btn {
+  background: transparent;
+  border: none;
+  color: var(--jacaona-text-muted);
+  cursor: pointer;
+  padding: var(--jacaona-space-xs);
+  border-radius: var(--jacaona-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.jacaona-exercise-menu-btn:hover {
+  background: var(--jacaona-bg-tertiary);
+  color: white;
 }
 
 /* Sets Table */
@@ -272,4 +298,77 @@
 
 .jacaona-add-set-btn:hover {
   background: var(--jacaona-bg-quaternary);
+}
+
+/* Exercise Menu Overlay */
+.jacaona-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1000;
+}
+
+.jacaona-menu-content {
+  width: 100%;
+  background: var(--jacaona-bg-secondary);
+  border-radius: var(--jacaona-radius-lg) var(--jacaona-radius-lg) 0 0;
+  padding: var(--jacaona-space-md);
+  animation: slideUp 0.2s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.jacaona-menu-item {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: white;
+  padding: var(--jacaona-space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--jacaona-space-md);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  border-radius: var(--jacaona-radius-md);
+}
+
+.jacaona-menu-item:hover {
+  background: var(--jacaona-bg-tertiary);
+}
+
+.jacaona-menu-icon {
+  color: white;
+  flex-shrink: 0;
+}
+
+.jacaona-menu-text {
+  color: white;
+  font-size: 16px;
+  font-weight: var(--jacaona-font-weight-medium);
+}
+
+.jacaona-menu-separator {
+  height: 1px;
+  background: var(--jacaona-border);
+  margin: var(--jacaona-space-xs) 0;
+}
+
+.jacaona-menu-item-danger:hover {
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.jacaona-menu-icon-danger {
+  color: var(--jacaona-danger);
+}
+
+.jacaona-menu-text-danger {
+  color: var(--jacaona-danger);
 }

@@ -18,6 +18,8 @@ export class AddWorkoutComponent implements OnInit {
 
   currentWorkout = this.workoutService.currentWorkout;
   showDiscardDialog = signal(false);
+  showMenu = signal(false);
+  selectedExerciseId = signal<string | null>(null);
 
   ngOnInit(): void {
     // Create a new workout if none exists
@@ -93,5 +95,37 @@ export class AddWorkoutComponent implements OnInit {
         this.workoutService.updateSet(workout.id, exerciseId, updatedSet);
       }
     }
+  }
+
+  openMenu(exerciseId: string, event: Event): void {
+    event.stopPropagation();
+    this.selectedExerciseId.set(exerciseId);
+    this.showMenu.set(true);
+  }
+
+  closeMenu(): void {
+    this.showMenu.set(false);
+    this.selectedExerciseId.set(null);
+  }
+
+  reorderExercises(): void {
+    this.closeMenu();
+    // TODO: Implement reorder functionality
+    console.log('Reorder exercises');
+  }
+
+  replaceExercise(): void {
+    this.closeMenu();
+    // TODO: Implement replace functionality
+    console.log('Replace exercise');
+  }
+
+  removeExercise(): void {
+    const exerciseId = this.selectedExerciseId();
+    const workout = this.currentWorkout();
+    if (exerciseId && workout) {
+      this.workoutService.removeExerciseFromWorkout(workout.id, exerciseId);
+    }
+    this.closeMenu();
   }
 }
