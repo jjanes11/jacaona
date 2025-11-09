@@ -4,7 +4,7 @@
     <button class="jacaona-cancel-btn" (click)="cancel()">
       Cancel
     </button>
-    <h1 class="jacaona-page-title">Add Exercise</h1>
+    <h1 class="jacaona-page-title">{{ isReplaceMode() ? 'Replace Exercise' : 'Add Exercise' }}</h1>
     <button class="jacaona-create-btn" (click)="create()">
       Create
     </button>

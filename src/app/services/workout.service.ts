@@ -170,6 +170,32 @@ export class WorkoutService {
     this.saveData();
   }
 
+  replaceExerciseInWorkout(workoutId: string, exerciseId: string, newExerciseName: string): void {
+    const workouts = this._workouts().map(w => {
+      if (w.id === workoutId) {
+        const exercises = w.exercises.map(e => {
+          if (e.id === exerciseId) {
+            // Keep the same sets but change the exercise name
+            return { ...e, name: newExerciseName };
+          }
+          return e;
+        });
+        return { ...w, exercises };
+      }
+      return w;
+    });
+    
+    this._workouts.set(workouts);
+    
+    // Update current workout if it's the one being modified
+    if (this._currentWorkout()?.id === workoutId) {
+      const updatedWorkout = workouts.find(w => w.id === workoutId);
+      this._currentWorkout.set(updatedWorkout || null);
+    }
+    
+    this.saveData();
+  }
+
   // Set Management
   addSetToExercise(workoutId: string, exerciseId: string): Set {
     const newSet: Set = {

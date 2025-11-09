@@ -19,6 +19,8 @@ export class AddExercise {
   searchQuery = signal('');
   selectedExercise = signal<Exercise | null>(null);
   private returnUrl = signal<string>('/workout/new');
+  isReplaceMode = signal(false);
+  replaceExerciseId = signal<string | null>(null);
 
   constructor() {
     // Check if we have a return URL from navigation state
@@ -31,6 +33,18 @@ export class AddExercise {
       const historyState = history.state;
       if (historyState && historyState['returnUrl']) {
         this.returnUrl.set(historyState['returnUrl']);
+      }
+    }
+
+    // Check if we're in replace mode
+    if (state && state['replaceExerciseId']) {
+      this.isReplaceMode.set(true);
+      this.replaceExerciseId.set(state['replaceExerciseId']);
+    } else {
+      const historyState = history.state;
+      if (historyState && historyState['replaceExerciseId']) {
+        this.isReplaceMode.set(true);
+        this.replaceExerciseId.set(historyState['replaceExerciseId']);
       }
     }
   }
@@ -61,12 +75,23 @@ export class AddExercise {
   }
 
   selectExercise(exercise: Exercise): void {
-    // Toggle selection - if already selected, deselect; otherwise select
-    const current = this.selectedExercise();
-    if (current && current.id === exercise.id) {
-      this.selectedExercise.set(null);
+    // In replace mode, immediately replace and navigate back
+    if (this.isReplaceMode()) {
+      const currentWorkout = this.workoutService.currentWorkout();
+      const oldExerciseId = this.replaceExerciseId();
+      
+      if (currentWorkout && oldExerciseId) {
+        this.workoutService.replaceExerciseInWorkout(currentWorkout.id, oldExerciseId, exercise.name);
+        this.router.navigate([this.returnUrl()]);
+      }
     } else {
-      this.selectedExercise.set(exercise);
+      // Normal add mode - toggle selection
+      const current = this.selectedExercise();
+      if (current && current.id === exercise.id) {
+        this.selectedExercise.set(null);
+      } else {
+        this.selectedExercise.set(exercise);
+      }
     }
   }
 

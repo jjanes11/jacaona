@@ -115,9 +115,17 @@ export class AddWorkoutComponent implements OnInit {
   }
 
   replaceExercise(): void {
+    const exerciseId = this.selectedExerciseId();
     this.closeMenu();
-    // TODO: Implement replace functionality
-    console.log('Replace exercise');
+    
+    if (exerciseId) {
+      this.router.navigate(['/add-exercise'], {
+        state: { 
+          returnUrl: '/workout/new',
+          replaceExerciseId: exerciseId
+        }
+      });
+    }
   }
 
   removeExercise(): void {
