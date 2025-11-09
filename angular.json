@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "angular-pwa": {
+    "jacaona-app": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -57,10 +57,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "angular-pwa:build:production"
+              "buildTarget": "jacaona-app:build:production"
             },
             "development": {
-              "buildTarget": "angular-pwa:build:development"
+              "buildTarget": "jacaona-app:build:development"
             }
           },
           "defaultConfiguration": "development"
