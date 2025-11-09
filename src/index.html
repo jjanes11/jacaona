@@ -9,6 +9,17 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#3b82f6">
+  
+  <script>
+    // Restore the original path after 404 redirect
+    (function() {
+      const redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect !== location.pathname) {
+        history.replaceState(null, null, redirect);
+      }
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>
