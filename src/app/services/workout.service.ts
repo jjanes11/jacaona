@@ -341,6 +341,20 @@ export class WorkoutService {
     this.saveTemplates();
   }
 
+  reorderTemplates(draggedTemplateId: string, targetTemplateId: string): void {
+    const templates = [...this._templates()];
+    const draggedIndex = templates.findIndex(t => t.id === draggedTemplateId);
+    const targetIndex = templates.findIndex(t => t.id === targetTemplateId);
+    
+    if (draggedIndex !== -1 && targetIndex !== -1) {
+      const [draggedTemplate] = templates.splice(draggedIndex, 1);
+      templates.splice(targetIndex, 0, draggedTemplate);
+    }
+    
+    this._templates.set(templates);
+    this.saveTemplates();
+  }
+
   // Utility Methods
   private generateId(): string {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);

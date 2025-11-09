@@ -110,6 +110,26 @@
   display: flex;
   flex-direction: column;
   gap: var(--jacaona-space-md);
+  cursor: grab;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.jacaona-routine-template-card:active {
+  cursor: grabbing;
+}
+
+.jacaona-routine-template-card.jacaona-drag-over {
+  transform: translateY(-4px);
+  box-shadow: 0 0 0 2px var(--jacaona-accent-blue);
+}
+
+/* Re-enable pointer events on interactive elements */
+.jacaona-routine-template-card button {
+  pointer-events: auto;
+  touch-action: auto;
 }
 
 .jacaona-routine-header {

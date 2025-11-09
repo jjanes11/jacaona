@@ -41,7 +41,21 @@
     @if (templates().length > 0) {
       <div class="jacaona-saved-routines">
         @for (template of templates(); track template.id) {
-          <div class="jacaona-routine-template-card">
+          <div 
+            class="jacaona-routine-template-card"
+            [class.jacaona-drag-over]="dragOverTemplateId() === template.id"
+            draggable="true"
+            (dragstart)="onDragStart(template.id, $event)"
+            (dragover)="onDragOver(template.id, $event)"
+            (dragenter)="onDragEnter(template.id, $event)"
+            (dragleave)="onDragLeave(template.id, $event)"
+            (drop)="onDrop(template.id, $event)"
+            (dragend)="onDragEnd($event)"
+            (touchstart)="onTouchStart(template.id, $event)"
+            (touchmove)="onTouchMove($event)"
+            (touchend)="onTouchEnd($event)"
+            (touchcancel)="onTouchEnd($event)"
+          >
             <div class="jacaona-routine-header">
               <div class="jacaona-routine-info">
                 <h3 class="jacaona-routine-name">{{ template.name }}</h3>
