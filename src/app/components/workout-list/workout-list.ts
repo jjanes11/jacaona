@@ -37,11 +37,6 @@ export class WorkoutListComponent {
     this.router.navigate(['/routine/new']);
   }
 
-  exploreRoutines(): void {
-    console.log('Exploring routines...');
-    // TODO: Navigate to routine exploration page
-  }
-
   startRoutine(template: WorkoutTemplate): void {
     const workout = this.workoutService.createWorkoutFromTemplate(template);
     this.router.navigate(['/workout/new']);
