@@ -26,25 +26,40 @@ export class WorkoutDashboardComponent {
     return 'Evening';
   });
 
-  totalWorkouts = computed(() => this.workouts().length);
+  totalWorkouts = computed(() => {
+    const currentWorkoutId = this.workoutService.currentWorkout()?.id;
+    const routineDraftId = this.workoutService.routineDraft()?.id;
+    return this.workouts().filter(w => w.id !== currentWorkoutId && w.id !== routineDraftId).length;
+  });
   
   totalVolume = computed(() => {
-    return this.workouts().reduce((total, workout) => {
-      return total + (workout.exercises.reduce((exerciseTotal, exercise) => {
-        return exerciseTotal + (exercise.sets.reduce((setTotal, set) => {
-          return setTotal + (set.weight * set.reps);
+    const currentWorkoutId = this.workoutService.currentWorkout()?.id;
+    const routineDraftId = this.workoutService.routineDraft()?.id;
+    
+    return this.workouts()
+      .filter(w => w.id !== currentWorkoutId && w.id !== routineDraftId)
+      .reduce((total, workout) => {
+        return total + (workout.exercises.reduce((exerciseTotal, exercise) => {
+          return exerciseTotal + (exercise.sets.reduce((setTotal, set) => {
+            return setTotal + (set.weight * set.reps);
+          }, 0));
         }, 0));
-      }, 0));
-    }, 0);
+      }, 0);
   });
 
   currentStreak = computed(() => {
-    const completedWorkouts = this.workouts().filter(w => w.completed);
+    const currentWorkoutId = this.workoutService.currentWorkout()?.id;
+    const routineDraftId = this.workoutService.routineDraft()?.id;
+    const completedWorkouts = this.workouts()
+      .filter(w => w.completed && w.id !== currentWorkoutId && w.id !== routineDraftId);
     return completedWorkouts.length > 0 ? Math.min(completedWorkouts.length, 7) : 0;
   });
 
   avgWorkoutTime = computed(() => {
-    const completedWorkouts = this.workouts().filter(w => w.completed && w.duration);
+    const currentWorkoutId = this.workoutService.currentWorkout()?.id;
+    const routineDraftId = this.workoutService.routineDraft()?.id;
+    const completedWorkouts = this.workouts()
+      .filter(w => w.completed && w.duration && w.id !== currentWorkoutId && w.id !== routineDraftId);
     if (completedWorkouts.length === 0) return 0;
     
     const totalTime = completedWorkouts.reduce((sum, w) => sum + (w.duration || 0), 0);
@@ -52,7 +67,11 @@ export class WorkoutDashboardComponent {
   });
 
   recentWorkouts = computed(() => {
+    const currentWorkoutId = this.workoutService.currentWorkout()?.id;
+    const routineDraftId = this.workoutService.routineDraft()?.id;
+    
     return this.workouts()
+      .filter(w => w.id !== currentWorkoutId && w.id !== routineDraftId) // Exclude in-progress and draft workouts
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, 5);
   });
@@ -80,11 +99,8 @@ export class WorkoutDashboardComponent {
       return `${workout.duration} min`;
     }
     
-    const totalSets = workout.exercises.reduce((sum: number, ex: any) => 
-      sum + ex.sets.length, 0);
-    
-    const estimatedMinutes = Math.max(15, totalSets * 2);
-    return `~${estimatedMinutes} min`;
+    // Don't show estimated time for workouts without a recorded duration
+    return '0 min';
   }
 
   navigateToWorkout(workoutId: string): void {
