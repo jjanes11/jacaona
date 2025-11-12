@@ -3,7 +3,6 @@ import {
   Input,
   Output,
   EventEmitter,
-  HostListener,
   signal,
   effect
 } from '@angular/core';
@@ -22,7 +21,10 @@ export interface MenuItem {
   standalone: true,
   imports: [CommonModule, BottomSheetDialog],
   templateUrl: './card-menu.html',
-  styleUrl: './card-menu.css'
+  styleUrl: './card-menu.css',
+  host: {
+    '(click)': 'onHostClick($event)'
+  }
 })
 export class CardMenuComponent {
   @Input({ required: true }) menuId!: string;
@@ -44,17 +46,16 @@ export class CardMenuComponent {
     });
   }
 
-  @HostListener('click', ['$event'])
-  onMenuButtonClick(event: Event): void {
-    event.stopPropagation();
-    this.toggleMenu();
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event): void {
-    // Close menu if clicking outside
-    if (this.isOpen()) {
-      this.closeMenu();
+  onHostClick(event: Event): void {
+    // Only toggle if the click is on the host element itself (the button), 
+    // not on child elements like the overlay
+    const target = event.target as HTMLElement;
+    const currentTarget = event.currentTarget as HTMLElement;
+    
+    // Check if click is directly on the host or its immediate button child
+    if (target === currentTarget || target.closest('.jacaona-menu-overlay') === null) {
+      event.stopPropagation();
+      this.toggleMenu();
     }
   }
 

@@ -46,11 +46,6 @@ export class SetTypeMenuComponent {
     });
   }
 
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event): void {
-    // Document click will close the menu (handled by overlay click in template)
-  }
-
   closeMenu(): void {
     this.isOpen.set(false);
     SetTypeMenuComponent.openMenuId.set(null);
