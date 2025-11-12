@@ -167,7 +167,10 @@ app-exercise-card:active {
 
 app-exercise-card.jacaona-drag-over {
   transform: translateY(-4px);
-  box-shadow: 0 0 0 2px var(--jacaona-accent-blue);
+  border: 2px solid var(--jacaona-accent-blue);
+  background: var(--jacaona-bg-quaternary);
+  border-radius: var(--jacaona-radius-lg);
+  box-shadow: 0 0 0 2px var(--jacaona-accent-blue) inset;
 }
 
 /* Re-enable pointer events on interactive elements */

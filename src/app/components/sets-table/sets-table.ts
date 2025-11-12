@@ -19,6 +19,7 @@ export interface SetCompleteEvent {
 
 export interface SetTypeClickEvent {
   setId: string;
+  event: Event;
 }
 
 @Component({
@@ -53,7 +54,7 @@ export class SetsTableComponent {
   onSetTypeClick(setId: string, event: Event): void {
     if (this.mode === 'edit') {
       event.stopPropagation();
-      this.setTypeClick.emit({ setId });
+        this.setTypeClick.emit({ setId, event });
     }
   }
 

@@ -186,7 +186,7 @@
   background: var(--jacaona-bg-secondary);
   border-radius: var(--jacaona-radius-lg);
   padding: var(--jacaona-space-lg);
-  margin-bottom: var(--jacaona-space-lg);
+  margin-bottom: var(--jacaona-space-xl);
   border: none;
   width: 100%;
   box-sizing: border-box;

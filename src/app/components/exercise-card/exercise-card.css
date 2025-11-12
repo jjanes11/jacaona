@@ -1,10 +1,18 @@
+/* Drag-over highlight for exercise cards */
+.jacaona-exercise-card.jacaona-drag-over {
+  border: 2px solid var(--jacaona-accent-blue);
+  background: var(--jacaona-bg-quaternary);
+  border-radius: var(--jacaona-radius-lg);
+  box-shadow: 0 0 0 2px var(--jacaona-accent-blue) inset;
+}
 /* Exercise Card */
 .jacaona-exercise-card {
   background: var(--jacaona-bg-secondary);
   border-radius: var(--jacaona-radius-lg);
   padding: var(--jacaona-space-lg);
-  border: 1px solid var(--jacaona-border);
+  border: none;
   transition: box-shadow 0.15s ease;
+  margin-bottom: var(--jacaona-space-xl);
 }
 
 .jacaona-exercise-card:hover {
@@ -21,7 +29,7 @@
 
 .jacaona-exercise-name {
   color: var(--jacaona-accent-blue);
-  font-size: 16px;
+  font-size: 20px;
   font-weight: var(--jacaona-font-weight-semibold);
   margin: 0;
   flex: 1;
@@ -59,26 +67,16 @@
   width: 100%;
   padding: var(--jacaona-space-md);
   margin-top: var(--jacaona-space-md);
-  background: transparent;
-  border: 2px dashed var(--jacaona-border);
+  background: var(--jacaona-bg-tertiary);
+  border: none;
   border-radius: var(--jacaona-radius-md);
-  color: var(--jacaona-text-secondary);
-  font-size: 14px;
+  color: white;
+  font-size: 16px;
   font-weight: var(--jacaona-font-weight-medium);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
 .jacaona-add-set-btn:hover {
-  border-color: var(--jacaona-accent-blue);
-  color: var(--jacaona-accent-blue);
-  background: rgba(59, 130, 246, 0.05);
-}
-
-.jacaona-add-set-btn:active {
-  transform: scale(0.98);
-}
-
-.jacaona-add-set-btn svg {
-  flex-shrink: 0;
+  background: var(--jacaona-bg-quaternary);
 }

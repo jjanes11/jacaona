@@ -1,15 +1,19 @@
+/* Drag-over highlight for reordering */
+.jacaona-table-row.drag-over {
+  border: 2px solid var(--jacaona-accent-blue);
+  background: var(--jacaona-bg-quaternary);
+  border-radius: var(--jacaona-radius-lg);
+  box-shadow: 0 0 0 2px var(--jacaona-accent-blue) inset;
+}
 /* Sets Table */
 .jacaona-sets-table {
   width: 100%;
-  background: var(--jacaona-bg-tertiary);
-  border-radius: var(--jacaona-radius-md);
-  overflow: hidden;
 }
 
 .jacaona-table-header {
   display: grid;
   grid-template-columns: 50px 1fr 1fr 50px;
-  background: var(--jacaona-bg-quaternary);
+  gap: var(--jacaona-space-md);
   color: var(--jacaona-text-secondary);
   font-size: 12px;
   font-weight: var(--jacaona-font-weight-semibold);
@@ -33,6 +37,7 @@
 .jacaona-table-row {
   display: grid;
   grid-template-columns: 50px 1fr 1fr 50px;
+  gap: var(--jacaona-space-md);
   align-items: center;
   padding: var(--jacaona-space-sm) var(--jacaona-space-md);
   border-bottom: 1px solid var(--jacaona-border-subtle);
@@ -55,7 +60,7 @@
 .jacaona-cell-set.clickable {
   cursor: pointer;
   padding: var(--jacaona-space-xs);
-  border-radius: var(--jacaona-radius-sm);
+  border-radius: var(--jacaona-radius-lg);
   transition: background-color 0.15s ease;
 }
 
@@ -74,19 +79,18 @@
 
 .jacaona-input {
   width: 100%;
-  max-width: 80px;
-  padding: var(--jacaona-space-xs) var(--jacaona-space-sm);
+  padding: var(--jacaona-space-sm);
   background: var(--jacaona-bg-primary);
-  border: 1px solid var(--jacaona-border);
+  border: none;
   border-radius: var(--jacaona-radius-sm);
   color: var(--jacaona-text-primary);
   font-size: 14px;
   text-align: center;
+  outline: none;
   transition: border-color 0.15s ease;
 }
 
 .jacaona-input:focus {
-  outline: none;
   border-color: var(--jacaona-accent-blue);
 }
 
