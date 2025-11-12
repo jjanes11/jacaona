@@ -5,10 +5,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { WorkoutService } from '../../services/workout.service';
 import { ConfirmationDialog } from '../confirmation-dialog/confirmation-dialog';
+import { ExerciseCardComponent } from '../exercise-card/exercise-card';
 
 @Component({
   selector: 'app-workout-detail',
-  imports: [CommonModule, ConfirmationDialog],
+  imports: [CommonModule, ConfirmationDialog, ExerciseCardComponent],
   templateUrl: './workout-detail.html',
   styleUrl: './workout-detail.css',
 })

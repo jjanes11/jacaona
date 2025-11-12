@@ -7,12 +7,12 @@ import { Workout } from '../../models/workout.models';
 import { ConfirmationDialog } from '../confirmation-dialog/confirmation-dialog';
 import { NavigationService } from '../../services/navigation.service';
 import { SetTypeMenuComponent } from '../set-type-menu/set-type-menu';
-import { getSetTypeDisplay, getSetTypeClass } from '../../utils/set-type.utils';
+import { ExerciseCardComponent, ExerciseActionEvent } from '../exercise-card/exercise-card';
 
 @Component({
   selector: 'app-create-routine',
   standalone: true,
-  imports: [CommonModule, FormsModule, ConfirmationDialog, SetTypeMenuComponent],
+  imports: [CommonModule, FormsModule, ConfirmationDialog, SetTypeMenuComponent, ExerciseCardComponent],
   templateUrl: './create-routine.html',
   styleUrl: './create-routine.css'
 })
@@ -30,10 +30,7 @@ export class CreateRoutineComponent implements OnInit {
   // Set Type Menu
   showSetTypeMenu = signal(false);
   selectedSet = signal<{ exerciseId: string; setId: string } | null>(null);
-  
-  getSetTypeDisplay = getSetTypeDisplay;
-  getSetTypeClass = getSetTypeClass;
-  
+
   openSetTypeMenu(exerciseId: string, setId: string, event: Event): void {
     event.stopPropagation();
     this.selectedSet.set({ exerciseId, setId });
@@ -146,6 +143,20 @@ export class CreateRoutineComponent implements OnInit {
         const updatedSet = { ...set, [field]: value };
         this.workoutService.updateSet(workout.id, exerciseId, updatedSet);
       }
+    }
+  }
+
+  onExerciseAction(event: ExerciseActionEvent): void {
+    switch (event.type) {
+      case 'set-change':
+        this.updateSet(event.exerciseId, event.data.setId, event.data.field, event.data.value);
+        break;
+      case 'set-type-click':
+        this.openSetTypeMenu(event.exerciseId, event.data.setId, event.data.event);
+        break;
+      case 'add-set':
+        this.addSetToExercise(event.exerciseId);
+        break;
     }
   }
 }

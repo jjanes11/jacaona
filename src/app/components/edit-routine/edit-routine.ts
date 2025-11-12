@@ -8,12 +8,12 @@ import { WorkoutService } from '../../services/workout.service';
 import { WorkoutTemplate, ExerciseTemplate } from '../../models/workout.models';
 import { NavigationService } from '../../services/navigation.service';
 import { SetTypeMenuComponent } from '../set-type-menu/set-type-menu';
-import { getSetTypeDisplay, getSetTypeClass } from '../../utils/set-type.utils';
+import { ExerciseCardComponent, ExerciseActionEvent } from '../exercise-card/exercise-card';
 
 @Component({
   selector: 'app-edit-routine',
   standalone: true,
-  imports: [CommonModule, FormsModule, SetTypeMenuComponent],
+  imports: [CommonModule, FormsModule, SetTypeMenuComponent, ExerciseCardComponent],
   templateUrl: './edit-routine.html',
   styleUrl: './edit-routine.css'
 })
@@ -35,10 +35,7 @@ export class EditRoutineComponent {
   // Set Type Menu
   showSetTypeMenu = signal(false);
   selectedSet = signal<{ exerciseId: string; setId: string } | null>(null);
-  
-  getSetTypeDisplay = getSetTypeDisplay;
-  getSetTypeClass = getSetTypeClass;
-  
+
   openSetTypeMenu(exerciseId: string, setId: string, event: Event): void {
     event.stopPropagation();
     this.selectedSet.set({ exerciseId, setId });
@@ -146,5 +143,29 @@ export class EditRoutineComponent {
     }
     
     this.navigationService.navigateWithReturnUrl('/add-exercise', '/routine/edit/' + this.template()?.id);
+  }
+
+  onExerciseAction(event: ExerciseActionEvent): void {
+    const workout = this.currentWorkout();
+    if (!workout) return;
+
+    // Find exercise index
+    const exerciseIndex = workout.exercises.findIndex(e => e.id === event.exerciseId);
+    if (exerciseIndex === -1) return;
+
+    switch (event.type) {
+      case 'set-change':
+        const setIndex = workout.exercises[exerciseIndex].sets.findIndex(s => s.id === event.data.setId);
+        if (setIndex !== -1) {
+          this.updateSet(exerciseIndex, setIndex, event.data.field, event.data.value);
+        }
+        break;
+      case 'set-type-click':
+        this.openSetTypeMenu(event.exerciseId, event.data.setId, event.data.event);
+        break;
+      case 'add-set':
+        this.addSet(exerciseIndex);
+        break;
+    }
   }
 }

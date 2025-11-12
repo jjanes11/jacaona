@@ -1,0 +1,84 @@
+/* Exercise Card */
+.jacaona-exercise-card {
+  background: var(--jacaona-bg-secondary);
+  border-radius: var(--jacaona-radius-lg);
+  padding: var(--jacaona-space-lg);
+  border: 1px solid var(--jacaona-border);
+  transition: box-shadow 0.15s ease;
+}
+
+.jacaona-exercise-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Exercise Header */
+.jacaona-exercise-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--jacaona-space-md);
+}
+
+.jacaona-exercise-name {
+  color: var(--jacaona-accent-blue);
+  font-size: 16px;
+  font-weight: var(--jacaona-font-weight-semibold);
+  margin: 0;
+  flex: 1;
+}
+
+.jacaona-exercise-menu-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: var(--jacaona-radius-sm);
+  color: var(--jacaona-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.jacaona-exercise-menu-btn:hover {
+  background: var(--jacaona-bg-tertiary);
+  color: var(--jacaona-text-primary);
+}
+
+.jacaona-exercise-menu-btn:active {
+  transform: scale(0.95);
+}
+
+/* Add Set Button */
+.jacaona-add-set-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--jacaona-space-sm);
+  width: 100%;
+  padding: var(--jacaona-space-md);
+  margin-top: var(--jacaona-space-md);
+  background: transparent;
+  border: 2px dashed var(--jacaona-border);
+  border-radius: var(--jacaona-radius-md);
+  color: var(--jacaona-text-secondary);
+  font-size: 14px;
+  font-weight: var(--jacaona-font-weight-medium);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.jacaona-add-set-btn:hover {
+  border-color: var(--jacaona-accent-blue);
+  color: var(--jacaona-accent-blue);
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.jacaona-add-set-btn:active {
+  transform: scale(0.98);
+}
+
+.jacaona-add-set-btn svg {
+  flex-shrink: 0;
+}

@@ -51,32 +51,10 @@
       <!-- Exercises List -->
       <div class="jacaona-exercises-list">
         @for (exercise of w.exercises; track exercise.id) {
-          <div class="jacaona-exercise-item">
-            <!-- Exercise Name -->
-            <div class="jacaona-exercise-name">{{ exercise.name }}</div>
-
-            <!-- Sets Table -->
-            <div class="jacaona-sets-table">
-              <div class="jacaona-table-header">
-                <div class="jacaona-table-cell">Set</div>
-                <div class="jacaona-table-cell">Weight</div>
-                <div class="jacaona-table-cell">Reps</div>
-              </div>
-              @for (set of exercise.sets; track set.id; let i = $index) {
-                <div class="jacaona-table-row">
-                  <div class="jacaona-table-cell">
-                    @if (set.type && set.type !== 'normal') {
-                      <span [class]="'jacaona-set-type-char ' + getSetTypeClass(set.type)">{{ getSetTypeDisplay(set.type) }}</span>
-                    } @else {
-                      {{ i + 1 }}
-                    }
-                  </div>
-                  <div class="jacaona-table-cell">{{ set.weight }} kg</div>
-                  <div class="jacaona-table-cell">{{ set.reps }}</div>
-                </div>
-              }
-            </div>
-          </div>
+          <app-exercise-card
+            [exercise]="exercise"
+            mode="view">
+          </app-exercise-card>
         }
       </div>
     </div>

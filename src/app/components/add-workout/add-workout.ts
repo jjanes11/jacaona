@@ -5,13 +5,13 @@ import { WorkoutService } from '../../services/workout.service';
 import { Exercise } from '../../models/workout.models';
 import { ConfirmationDialog } from '../confirmation-dialog/confirmation-dialog';
 import { DraggableDirective, DragReorderEvent } from '../../directives/draggable.directive';
-import { CardMenuComponent, MenuItem } from '../card-menu/card-menu';
+import { MenuItem } from '../card-menu/card-menu';
 import { SetTypeMenuComponent } from '../set-type-menu/set-type-menu';
-import { getSetTypeDisplay, getSetTypeClass } from '../../utils/set-type.utils';
+import { ExerciseCardComponent, ExerciseActionEvent } from '../exercise-card/exercise-card';
 
 @Component({
   selector: 'app-add-workout',
-  imports: [CommonModule, ConfirmationDialog, DraggableDirective, CardMenuComponent, SetTypeMenuComponent],
+  imports: [CommonModule, ConfirmationDialog, DraggableDirective, SetTypeMenuComponent, ExerciseCardComponent],
   templateUrl: './add-workout.html',
   styleUrl: './add-workout.css'
 })
@@ -28,9 +28,6 @@ export class AddWorkoutComponent implements OnInit {
   // Set Type Menu
   showSetTypeMenu = signal(false);
   selectedSet = signal<{ exerciseId: string; setId: string } | null>(null);
-  
-  getSetTypeDisplay = getSetTypeDisplay;
-  getSetTypeClass = getSetTypeClass;
 
   menuItems: MenuItem[] = [
     {
@@ -173,6 +170,30 @@ export class AddWorkoutComponent implements OnInit {
     const workout = this.currentWorkout();
     if (workout) {
       this.workoutService.reorderExercises(workout.id, event.fromId, event.toId);
+    }
+  }
+
+  onExerciseAction(event: ExerciseActionEvent): void {
+    const workout = this.currentWorkout();
+    if (!workout) return;
+
+    switch (event.type) {
+      case 'menu':
+        this.handleMenuAction(event.exerciseId, event.data);
+        break;
+      case 'set-change':
+        const { setId, field, value } = event.data;
+        this.updateSet(event.exerciseId, setId, field, value);
+        break;
+      case 'set-complete':
+        this.toggleSetComplete(event.exerciseId, event.data.setId);
+        break;
+      case 'set-type-click':
+        this.openSetTypeMenu(event.exerciseId, event.data.setId, event.data.event);
+        break;
+      case 'add-set':
+        this.addSetToExercise(event.exerciseId);
+        break;
     }
   }
 }

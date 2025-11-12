@@ -8,11 +8,11 @@ import { WorkoutService } from '../../services/workout.service';
 import { Workout, Exercise, Set } from '../../models/workout.models';
 import { NavigationService } from '../../services/navigation.service';
 import { SetTypeMenuComponent } from '../set-type-menu/set-type-menu';
-import { getSetTypeDisplay, getSetTypeClass } from '../../utils/set-type.utils';
+import { ExerciseCardComponent, ExerciseActionEvent } from '../exercise-card/exercise-card';
 
 @Component({
   selector: 'app-edit-workout',
-  imports: [CommonModule, FormsModule, SetTypeMenuComponent],
+  imports: [CommonModule, FormsModule, SetTypeMenuComponent, ExerciseCardComponent],
   templateUrl: './edit-workout.html',
   styleUrl: './edit-workout.css',
 })
@@ -35,9 +35,6 @@ export class EditWorkoutComponent {
   // Set Type Menu
   showSetTypeMenu = signal(false);
   selectedSet = signal<{ exerciseId: string; setId: string } | null>(null);
-  
-  getSetTypeDisplay = getSetTypeDisplay;
-  getSetTypeClass = getSetTypeClass;
 
   constructor() {
     // Effect that loads workout when ID changes
@@ -181,5 +178,28 @@ export class EditWorkoutComponent {
     this.workoutService.setCurrentWorkout(workout);
     
     this.navigationService.navigateWithReturnUrl('/add-exercise', `/edit-workout/${workout.id}`);
+  }
+
+  onExerciseAction(event: ExerciseActionEvent): void {
+    const workout = this.workout();
+    if (!workout) return;
+
+    const exercise = workout.exercises.find(e => e.id === event.exerciseId);
+    if (!exercise) return;
+
+    switch (event.type) {
+      case 'set-change':
+        const set = exercise.sets.find(s => s.id === event.data.setId);
+        if (set) {
+          this.updateSet(exercise, set, event.data.field, event.data.value);
+        }
+        break;
+      case 'set-type-click':
+        this.openSetTypeMenu(event.exerciseId, event.data.setId, event.data.event);
+        break;
+      case 'add-set':
+        this.addSet(exercise);
+        break;
+    }
   }
 }

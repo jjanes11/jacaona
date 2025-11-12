@@ -150,193 +150,29 @@
   flex: 1;
 }
 
-/* Exercise Card */
-.jacaona-exercise-card {
-  background: var(--jacaona-bg-secondary);
-  border: none;
-  border-radius: var(--jacaona-radius-lg);
+/* Drag styles for exercise cards */
+app-exercise-card {
+  display: block;
   margin-bottom: var(--jacaona-space-lg);
-  padding: var(--jacaona-space-lg);
-  width: 100%;
-  box-sizing: border-box;
   cursor: grab;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  touch-action: pan-y; /* Allow vertical scrolling but enable custom touch handling */
+  touch-action: pan-y;
   -webkit-user-select: none;
   user-select: none;
 }
 
-.jacaona-exercise-card:active {
+app-exercise-card:active {
   cursor: grabbing;
 }
 
-.jacaona-exercise-card.jacaona-drag-over {
+app-exercise-card.jacaona-drag-over {
   transform: translateY(-4px);
   box-shadow: 0 0 0 2px var(--jacaona-accent-blue);
 }
 
 /* Re-enable pointer events on interactive elements */
-.jacaona-exercise-card input,
-.jacaona-exercise-card button {
+app-exercise-card input,
+app-exercise-card button {
   pointer-events: auto;
   touch-action: auto;
-}
-
-/* Exercise Header */
-.jacaona-exercise-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--jacaona-space-lg);
-}
-
-.jacaona-exercise-title {
-  color: white;
-  font-size: 20px;
-  font-weight: var(--jacaona-font-weight-semibold);
-  margin: 0;
-  text-align: left;
-}
-
-.jacaona-exercise-menu-btn {
-  background: transparent;
-  border: none;
-  color: var(--jacaona-text-muted);
-  cursor: pointer;
-  padding: var(--jacaona-space-xs);
-  border-radius: var(--jacaona-radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s ease;
-}
-
-.jacaona-exercise-menu-btn:hover {
-  background: var(--jacaona-bg-tertiary);
-  color: white;
-}
-
-/* Sets Table */
-.jacaona-sets-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.jacaona-table-header {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr;
-  gap: var(--jacaona-space-md);
-  padding: var(--jacaona-space-md) 0;
-  border-bottom: 1px solid var(--jacaona-border);
-  margin-bottom: var(--jacaona-space-sm);
-}
-
-.jacaona-table-header > div {
-  color: var(--jacaona-text-muted);
-  font-size: 12px;
-  font-weight: var(--jacaona-font-weight-medium);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.jacaona-table-row {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr;
-  gap: var(--jacaona-space-md);
-  padding: var(--jacaona-space-sm) 0;
-  align-items: center;
-}
-
-.jacaona-cell-set {
-  color: var(--jacaona-text-muted);
-  font-weight: var(--jacaona-font-weight-medium);
-  text-align: center;
-  cursor: pointer;
-  transition: color 0.15s ease;
-  user-select: none;
-}
-
-.jacaona-cell-set:hover {
-  color: white;
-}
-
-.jacaona-input {
-  background: var(--jacaona-bg-primary);
-  border: 1px solid var(--jacaona-border);
-  color: white;
-  padding: var(--jacaona-space-sm);
-  border-radius: var(--jacaona-radius-sm);
-  font-size: 14px;
-  text-align: center;
-  width: 100%;
-  outline: none;
-  transition: border-color 0.15s ease;
-}
-
-.jacaona-input:focus {
-  border-color: var(--jacaona-accent-blue);
-}
-
-.jacaona-check-btn {
-  width: 32px;
-  height: 32px;
-  background: var(--jacaona-bg-tertiary);
-  border: 1px solid var(--jacaona-border);
-  border-radius: var(--jacaona-radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  color: transparent;
-}
-
-.jacaona-check-btn.jacaona-check-completed {
-  background: var(--jacaona-accent-blue);
-  border-color: var(--jacaona-accent-blue);
-  color: white;
-}
-
-.jacaona-check-btn:hover {
-  background: var(--jacaona-bg-quaternary);
-}
-
-.jacaona-check-btn.jacaona-check-completed:hover {
-  background: var(--jacaona-accent-blue-hover);
-}
-
-/* Add Set Button */
-.jacaona-add-set-btn {
-  width: 100%;
-  background: var(--jacaona-bg-tertiary);
-  color: white;
-  border: 1px solid var(--jacaona-border);
-  padding: var(--jacaona-space-md);
-  border-radius: var(--jacaona-radius-md);
-  font-size: 14px;
-  font-weight: var(--jacaona-font-weight-medium);
-  cursor: pointer;
-  margin-top: var(--jacaona-space-md);
-  transition: background-color 0.15s ease;
-}
-
-.jacaona-add-set-btn:hover {
-  background: var(--jacaona-bg-quaternary);
-}
-
-/* Set Type Badges (used in table cells) */
-.jacaona-set-type-warmup {
-  color: #facc15;
-}
-
-.jacaona-set-type-failure {
-  color: var(--jacaona-danger);
-}
-
-.jacaona-set-type-drop {
-  color: var(--jacaona-accent-blue);
 }

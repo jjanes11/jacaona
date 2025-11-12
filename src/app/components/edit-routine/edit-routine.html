@@ -22,57 +22,13 @@
       <!-- Exercises List -->
       <div class="jacaona-exercises-container">
         @for (exercise of workout.exercises; track exercise.id; let i = $index) {
-          <div class="jacaona-exercise-card">
-            <!-- Exercise Name -->
-            <h3 class="jacaona-exercise-title">{{ exercise.name }}</h3>
-            
-            <!-- Sets Table -->
-            <div class="jacaona-sets-table">
-              <div class="jacaona-table-header">
-                <div class="jacaona-table-cell">Set</div>
-                <div class="jacaona-table-cell">Kg</div>
-                <div class="jacaona-table-cell">Reps</div>
-              </div>
-              @for (set of exercise.sets; track $index; let setIndex = $index) {
-                <div class="jacaona-table-row">
-                  <div class="jacaona-table-cell jacaona-set-number" (click)="openSetTypeMenu(exercise.id, set.id, $event)">
-                    @if (set.type && set.type !== 'normal') {
-                      <span [class]="'jacaona-set-type-char ' + getSetTypeClass(set.type)">{{ getSetTypeDisplay(set.type) }}</span>
-                    } @else {
-                      {{ setIndex + 1 }}
-                    }
-                  </div>
-                  <div class="jacaona-table-cell">
-                    <input 
-                      type="number" 
-                      class="jacaona-set-input"
-                      [value]="set.weight"
-                      (input)="updateSet(i, setIndex, 'weight', +$any($event.target).value)"
-                      min="0"
-                      step="0.5"
-                    />
-                  </div>
-                  <div class="jacaona-table-cell">
-                    <input 
-                      type="number" 
-                      class="jacaona-set-input"
-                      [value]="set.reps"
-                      (input)="updateSet(i, setIndex, 'reps', +$any($event.target).value)"
-                      min="0"
-                    />
-                  </div>
-                </div>
-              }
-            </div>
-
-            <!-- Add Set Button -->
-            <button class="jacaona-add-set-btn" (click)="addSet(i)">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-              </svg>
-              Add Set
-            </button>
-          </div>
+          <app-exercise-card
+            [exercise]="exercise"
+            mode="edit"
+            [showAddSetButton]="true"
+            [showCompleteColumn]="false"
+            (action)="onExerciseAction($event)"
+          />
         }
 
         <!-- Add Exercise Button -->
