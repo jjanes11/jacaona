@@ -194,7 +194,7 @@
   background: var(--jacaona-accent-blue-hover);
 }
 
-/* Delete Dialog */
+/* Workout In Progress Dialog (keep custom dialog for 3-button layout) */
 .jacaona-dialog-overlay {
   position: fixed;
   top: 0;
@@ -227,6 +227,14 @@
   line-height: 1.5;
 }
 
+.jacaona-dialog-submessage {
+  color: var(--jacaona-text-secondary);
+  font-size: 14px;
+  text-align: center;
+  margin: 0 0 var(--jacaona-space-xl) 0;
+  line-height: 1.5;
+}
+
 .jacaona-dialog-btn {
   width: 100%;
   padding: var(--jacaona-space-md);
@@ -236,34 +244,6 @@
   font-weight: var(--jacaona-font-weight-semibold);
   cursor: pointer;
   transition: all 0.15s ease;
-}
-
-.jacaona-dialog-btn-danger {
-  background: var(--jacaona-bg-tertiary);
-  color: var(--jacaona-danger);
-  margin-bottom: var(--jacaona-space-sm);
-}
-
-.jacaona-dialog-btn-danger:hover {
-  background: rgba(255, 59, 48, 0.1);
-}
-
-.jacaona-dialog-btn-cancel {
-  background: transparent;
-  color: var(--jacaona-text-primary);
-  border: 1px solid var(--jacaona-border);
-}
-
-.jacaona-dialog-btn-cancel:hover {
-  background: var(--jacaona-bg-tertiary);
-}
-
-.jacaona-dialog-submessage {
-  color: var(--jacaona-text-secondary);
-  font-size: 14px;
-  text-align: center;
-  margin: 0 0 var(--jacaona-space-xl) 0;
-  line-height: 1.5;
 }
 
 .jacaona-dialog-btn-primary {
@@ -284,6 +264,16 @@
 
 .jacaona-dialog-btn-danger-text:hover {
   background: rgba(255, 59, 48, 0.1);
+}
+
+.jacaona-dialog-btn-cancel {
+  background: transparent;
+  color: var(--jacaona-text-primary);
+  border: 1px solid var(--jacaona-border);
+}
+
+.jacaona-dialog-btn-cancel:hover {
+  background: var(--jacaona-bg-tertiary);
 }
 
 @keyframes scaleIn {

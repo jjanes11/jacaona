@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { WorkoutService } from '../../services/workout.service';
 import { CardMenuComponent, MenuItem } from '../card-menu/card-menu';
+import { ConfirmationDialog } from '../confirmation-dialog/confirmation-dialog';
 
 @Component({
   selector: 'app-workout-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, CardMenuComponent],
+  imports: [CommonModule, RouterModule, CardMenuComponent, ConfirmationDialog],
   templateUrl: './workout-dashboard.html',
   styleUrl: './workout-dashboard.css'
 })

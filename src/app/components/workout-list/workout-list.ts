@@ -6,10 +6,11 @@ import { Workout, WorkoutTemplate } from '../../models/workout.models';
 import { NavigationService } from '../../services/navigation.service';
 import { DraggableDirective, DragReorderEvent } from '../../directives/draggable.directive';
 import { CardMenuComponent, MenuItem } from '../card-menu/card-menu';
+import { ConfirmationDialog } from '../confirmation-dialog/confirmation-dialog';
 
 @Component({
   selector: 'app-workout-list',
-  imports: [CommonModule, DraggableDirective, CardMenuComponent],
+  imports: [CommonModule, DraggableDirective, CardMenuComponent, ConfirmationDialog],
   templateUrl: './workout-list.html',
   styleUrl: './workout-list.css'
 })

@@ -4,10 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { WorkoutService } from '../../services/workout.service';
+import { ConfirmationDialog } from '../confirmation-dialog/confirmation-dialog';
 
 @Component({
   selector: 'app-workout-detail',
-  imports: [CommonModule],
+  imports: [CommonModule, ConfirmationDialog],
   templateUrl: './workout-detail.html',
   styleUrl: './workout-detail.css',
 })
