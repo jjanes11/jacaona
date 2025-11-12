@@ -6,10 +6,11 @@ import { Exercise } from '../../models/workout.models';
 import { ConfirmationDialog } from '../confirmation-dialog/confirmation-dialog';
 import { createSetTypeMenuMixin } from '../../mixins/set-type-menu.mixin';
 import { DraggableDirective, DragReorderEvent } from '../../directives/draggable.directive';
+import { CardMenuComponent, MenuItem } from '../card-menu/card-menu';
 
 @Component({
   selector: 'app-add-workout',
-  imports: [CommonModule, ConfirmationDialog, DraggableDirective],
+  imports: [CommonModule, ConfirmationDialog, DraggableDirective, CardMenuComponent],
   templateUrl: './add-workout.html',
   styleUrl: './add-workout.css'
 })
@@ -20,9 +21,22 @@ export class AddWorkoutComponent implements OnInit {
 
   currentWorkout = this.workoutService.currentWorkout;
   showDiscardDialog = signal(false);
-  showMenu = signal(false);
   selectedExerciseId = signal<string | null>(null);
   draggedExerciseId = signal<string | null>(null);
+
+  menuItems: MenuItem[] = [
+    {
+      action: 'replace',
+      icon: 'M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z',
+      text: 'Replace Exercise'
+    },
+    {
+      action: 'remove',
+      icon: 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z',
+      text: 'Remove Exercise',
+      danger: true
+    }
+  ];
   dragOverExerciseId = signal<string | null>(null);
   
   // Set Type Menu Mixin
@@ -129,38 +143,27 @@ export class AddWorkoutComponent implements OnInit {
     }
   }
 
-  openMenu(exerciseId: string, event: Event): void {
-    event.stopPropagation();
+  handleMenuAction(exerciseId: string, action: string): void {
     this.selectedExerciseId.set(exerciseId);
-    this.showMenu.set(true);
-  }
-
-  closeMenu(): void {
-    this.showMenu.set(false);
-    this.selectedExerciseId.set(null);
-  }
-
-  replaceExercise(): void {
-    const exerciseId = this.selectedExerciseId();
-    this.closeMenu();
-    
-    if (exerciseId) {
-      this.router.navigate(['/add-exercise'], {
-        state: { 
-          returnUrl: '/workout/new',
-          replaceExerciseId: exerciseId
-        }
-      });
-    }
-  }
-
-  removeExercise(): void {
-    const exerciseId = this.selectedExerciseId();
     const workout = this.currentWorkout();
-    if (exerciseId && workout) {
-      this.workoutService.removeExerciseFromWorkout(workout.id, exerciseId);
+    
+    switch (action) {
+      case 'replace':
+        if (exerciseId) {
+          this.router.navigate(['/add-exercise'], {
+            state: { 
+              returnUrl: '/workout/new',
+              replaceExerciseId: exerciseId
+            }
+          });
+        }
+        break;
+      case 'remove':
+        if (exerciseId && workout) {
+          this.workoutService.removeExerciseFromWorkout(workout.id, exerciseId);
+        }
+        break;
     }
-    this.closeMenu();
   }
 
   onExerciseReorder(event: DragReorderEvent): void {

@@ -1,0 +1,29 @@
+<!-- Menu Button (projected content) -->
+<ng-content></ng-content>
+
+<!-- Bottom Menu Overlay -->
+@if (isMenuOpen()) {
+  <div class="jacaona-menu-overlay">
+    <div class="jacaona-bottom-menu" (click)="$event.stopPropagation()">
+      @for (item of items; track item.action; let last = $last) {
+        <button 
+          class="jacaona-menu-item"
+          [class.jacaona-menu-item-danger]="item.danger"
+          (click)="executeAction(item.action, $event)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" 
+            class="jacaona-menu-icon"
+            [class.jacaona-menu-icon-danger]="item.danger">
+            <path [attr.d]="item.icon"/>
+          </svg>
+          <span class="jacaona-menu-text"
+            [class.jacaona-menu-text-danger]="item.danger">
+            {{ item.text }}
+          </span>
+        </button>
+        @if (!last) {
+          <div class="jacaona-menu-separator"></div>
+        }
+      }
+    </div>
+  </div>
+}
