@@ -1,8 +1,8 @@
-import { 
-  Directive, 
-  Input, 
-  Output, 
-  EventEmitter, 
+import {
+  Directive,
+  Input,
+  Output,
+  EventEmitter,
   HostListener,
   ElementRef,
   Renderer2,
@@ -20,7 +20,17 @@ export interface DragReorderEvent {
   standalone: true
 })
 export class DraggableDirective {
-  @Input({ required: true }) dragItemId!: string;
+  private _dragItemId!: string;
+
+  @Input({ required: true })
+  set dragItemId(value: string) {
+    this._dragItemId = value;
+    this.renderer.setAttribute(this.el.nativeElement, 'data-drag-item-id', value);
+  }
+
+  get dragItemId(): string {
+    return this._dragItemId;
+  }
   @Input() draggedId = signal<string | null>(null);
   @Input() dragOverId = signal<string | null>(null);
   @Output() dragReorder = new EventEmitter<DragReorderEvent>();
@@ -174,10 +184,9 @@ export class DraggableDirective {
     this.dragOverId.set(null);
     
     if (cardBelow && cardBelow !== this.draggedElement) {
-      // Get the dragItemId from the element below
-      const targetDirective = (cardBelow as any).__ngContext__?.[8]; // Access directive instance
-      if (targetDirective?.dragItemId && targetDirective.dragItemId !== this.dragItemId) {
-        this.dragOverId.set(targetDirective.dragItemId);
+      const targetId = cardBelow.dataset['dragItemId'];
+      if (targetId && targetId !== this.dragItemId) {
+        this.dragOverId.set(targetId);
       }
     }
   }
